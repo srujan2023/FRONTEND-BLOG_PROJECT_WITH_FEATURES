@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router'
 
 const ListArticle = () => {
   const [articles,setArticles] = useState([])
@@ -25,12 +26,13 @@ const ListArticle = () => {
   return (
     <>
       <h1>ListArticles</h1>
+      <NavLink to="/admin/blog/articles/create">Create Article</NavLink>
          {articles ? (
              <div>
          {articles.map((article)=>(
             <div key={article._id}>
                 <h2>{article.title}</h2>
-                <p>Created By {article.user?.name}</p>
+                <NavLink to={`/admin/blog/articles/${article._id}`}>View Article</NavLink>
             </div>
 
          ))}
