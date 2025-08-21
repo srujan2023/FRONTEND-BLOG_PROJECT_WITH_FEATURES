@@ -27,7 +27,7 @@ const CreateArticle = () => {
             const data = await response.json();
 
             console.log(data);
-           Navigate('/admin/blog') 
+           Navigate('/admin/blog/articles') 
     }
     
 
