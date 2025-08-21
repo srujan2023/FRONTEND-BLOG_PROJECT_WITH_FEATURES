@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router'
+import { Navigate,NavLink, useNavigate, useParams } from 'react-router'
 
 const ListSingleArticle = () => {
     const [article,setArticles] = useState({})
@@ -52,6 +52,7 @@ const ListSingleArticle = () => {
       <h2>{article.title}</h2>
       <p>{article.body}</p>
       <p>Rs/-{article.price}</p>
+      <NavLink to='/admin/blog/articles/${article._id}/edit'>Edit </NavLink> <br></br><br></br>
       {/* <p>{article._id}</p>
       <p>{article.updatedAt}</p>
       <p>{article.createdAt}</p> */}
