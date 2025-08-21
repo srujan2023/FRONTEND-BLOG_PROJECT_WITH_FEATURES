@@ -19,8 +19,8 @@ const UpdatedArticle = () => {
             console.log(data);
     
             setArticles(data.article)
-        setupdatedAt(data.updatedAt)
-        setcreatedAt(data.createdAt)
+        //setupdatedAt(data.updatedAt)
+        //setcreatedAt(data.createdAt)
         setId(data._id)
         setPrice(data.price) 
         }
