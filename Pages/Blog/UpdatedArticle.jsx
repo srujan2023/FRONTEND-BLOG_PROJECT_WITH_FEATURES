@@ -1,50 +1,82 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { Navigate, useNavigate, useParams } from 'react-router'
 
 const UpdatedArticle = () => {
-   const [article,setArticles] = useState({})
-      const [updatedAt,setupdatedAt]= useState({})
-      const [createdAt,setcreatedAt]= useState({})
-      const [id,setId] = useState({})
-      const [price,setPrice] = useState({})
-  
 
-    const params = useParams()
+  const [article,setArticles] = useState({});
+  const [title,setTitle] = useState({})
+  const [ body,setBody] = useState({})
+  const [price,setPrice] = useState({});
 
-     const getSingleArticle = async() =>{
-            const response = await fetch(`http://localhost:5000/api/blog/articles/${params.articleId}`)
+  const params = useParams()
+  const Navigate = useNavigate()
+
+ const getSingleArticle = async() =>{
+  try {
+    const response = await fetch(`http://localhost:5000/api/blog/articles/${params.articleId}`)
+
+    const data = await response.json();
+
+    console.log(data);
+
+    setArticles(data.article)
+    setTitle(data.title)
+    setBody(data.body)
+    setPrice(data.price)
     
-            const data = await response.json()
+  } catch (error) {
+console.log(error);
     
-            console.log(data);
+  }
+ }
+
+
+ useEffect(()=>{
+getSingleArticle()
+ },[])
+
+  const EditFormSubmit = async(e) =>{
+    e.preventDefault()
+  try {
+    const response = await fetch(`http://localhost:5000/api/blog/articles/${params.articleId}`,{
+      method:"PUT",
+       headers: {
+                 'Content-Type': 'application/json',
+                 //Authorization:`Bearer ${token}`
+             },
+               body: JSON.stringify({title,body,price})
+    })
+
+     const data = await response.json();
+
+     console.log(data);
+
+     Navigate('/admin/blog/articles')
+     
+
+  } catch (error) {
+   console.log(error);
     
-            setArticles(data.article)
-        //setupdatedAt(data.updatedAt)
-        //setcreatedAt(data.createdAt)
-        setId(data._id)
-        setPrice(data.price) 
-        }
-    
-        useEffect(()=>{
-            getSingleArticle()
-        },[])
-    
+  }
+ }
+
+
   return (
     <>
       <h1>Updated Article</h1>
         <form >
         <label >Title</label>
-        <input  onChange={(e)=>setTitle(e.target.value)} type="text"  placeholder='Enter Article Name' />
+        <input defaultValue={article.title} onChange={(e)=>setTitle(e.target.value)} type="text"  placeholder='Enter Article Name' />
         <br />
         <br />
         <label>Body</label>
-        <textarea onChange={(e)=>setBody(e.target.value)} placeholder='Enter Article Body ' ></textarea>
+        <textarea defaultValue={article.body} onChange={(e)=>setBody(e.target.value)} placeholder='Enter Article Body ' ></textarea>
         <br /><br />
         <label>Price</label>
-        <input  onChange={(e)=>setPrice(e.target.value)} type="number" placeholder='Enter Article Amount' />
+        <input defaultValue={article.price} onChange={(e)=>setPrice(e.target.value)} type="number" placeholder='Enter Article Amount' />
         <br />
         <br />
-        <button>Updated Article</button>
+        <button onClick={EditFormSubmit}>Updated Article</button>
     </form> 
     </>
   )
